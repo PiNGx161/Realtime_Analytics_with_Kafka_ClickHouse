@@ -33,18 +33,6 @@ SETTINGS index_granularity = 8192;
 
 
 -- AGGREGATED TABLES
-CREATE TABLE IF NOT EXISTS analytics.sales_per_minute
-(
-    minute        DateTime,
-    order_count   UInt64,
-    total_revenue Float64,
-    avg_order     Float64
-)
-ENGINE = SummingMergeTree()
-PARTITION BY toYYYYMM(minute)
-ORDER BY (minute);
-
-
 CREATE TABLE IF NOT EXISTS analytics.sales_by_category_hourly
 (
     hour          DateTime,
@@ -72,19 +60,6 @@ ORDER BY (date, region);
 
 
 -- MATERIALIZED VIEWS
-CREATE MATERIALIZED VIEW IF NOT EXISTS analytics.mv_sales_per_minute
-TO analytics.sales_per_minute
-AS
-SELECT
-    toStartOfMinute(order_timestamp) AS minute,
-    count() AS order_count,
-    sum(total_amount) AS total_revenue,
-    avg(total_amount) AS avg_order
-FROM analytics.sales_orders
-WHERE order_status = 'completed'
-GROUP BY minute;
-
-
 CREATE MATERIALIZED VIEW IF NOT EXISTS analytics.mv_sales_by_category_hourly
 TO analytics.sales_by_category_hourly
 AS
