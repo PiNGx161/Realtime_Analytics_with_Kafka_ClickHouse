@@ -1,0 +1,31 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.local
+
+# Docker volumes
+infra/clickhouse/data/
+clickhouse/data/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
